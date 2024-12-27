@@ -12,7 +12,7 @@ phases:
   pre_build:
     commands:
       - TAG="$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
-      - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY:$TAG"'@' Kubernetes/eks-deployment.yaml
+      - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY:$TAG"'@' EKS/eks-deployment.yaml
   build:
     commands:
       - docker build --tag $REPOSITORY:$TAG .
@@ -25,7 +25,7 @@ phases:
       - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
-      - kubectl apply -f Kubernetes/eks-deployment.yaml
+      - kubectl apply -f EKS/eks-deployment.yaml
       - printf '[{"name":"eks-deployment","imageUri":"%s"}]' $REPOSITORY:$TAG > build.json
 artifacts:
   files: build.json
