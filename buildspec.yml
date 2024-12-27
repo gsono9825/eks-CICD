@@ -3,7 +3,7 @@ phases:
   install:
     commands:
       - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login --no-include-email --region $AWS_REGION)
+      - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 730335364821.dkr.ecr.us-west-2.amazonaws.com
       - curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/amd64/kubectl
       - chmod +x ./kubectl
       - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
@@ -13,7 +13,7 @@ phases:
     commands:
       - TAG="$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
       - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY:$TAG"'@' Kubernetes/eks-deployment.yml
-      - $(aws ecr get-login --no-include-email)
+      - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 730335364821.dkr.ecr.us-west-2.amazonaws.com
   build:
     commands:
       - docker push $REPOSITORY:$TAG
