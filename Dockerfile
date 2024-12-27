@@ -1,4 +1,4 @@
-FROM node:19.6.0-bullseye-slim
+FROM public.ecr.aws/docker/library/node:19.6.0-bullseye-slim
 
 # Create app directory
 WORKDIR /usr/src/app
