@@ -11,11 +11,11 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: app-eks-demo
-     spec:
-       containers:
-       - image: CONTAINER_IMAGE
-         imagePullPolicy: Always
-         name: app-eks-demo
-         ports:
-         - containerPort: 80
+    spec:
+      containers:
+      - image: CONTAINER_IMAGE
+        imagePullPolicy: Always
+        name: app-eks-demo
+        ports:
+        - containerPort: 80
 
